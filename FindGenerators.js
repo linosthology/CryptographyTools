@@ -41,6 +41,11 @@ coprimeSort = (mod, zElements) => {
 }
 
 getGenerators = (mod, coprimeSorted) => {
+    // to be a generator, an element must create all the elements of the group,
+    // whilst applying the group operation to itself mod-1 times
+
+    generated = []
+
     return coprimeSorted
 }
 
