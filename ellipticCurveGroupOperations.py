@@ -94,8 +94,8 @@ class ellipticCurve:
 
     # getInfo prints out information about the curve in the terminal
     def getInfo(self):
-        # print(
-        #     f"\nthe given elliptic curve has these points:\n{self.points}\nand an order of {len(self.points)} + point of infinity")
+        print(
+            f"\nthe given elliptic curve has these points:\n{self.points}\nand an order of {len(self.points)} + point of infinity")
         print(
             f"\nthe group has {len(self.points)} elements plus the point of infinity")
 
@@ -129,7 +129,7 @@ class pointAddition:
                 curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
 
             # print out the new point
-            # print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
+            print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
 
 
 # pointDuplication takes the point it has to duplicate and computes the duplication on instantiation
@@ -151,7 +151,7 @@ class pointDuplication:
             curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
 
         # print out the new point
-        # print(f"\n{self.P} + {self.P} is ({x}, {y})!")
+        print(f"\n{self.P} + {self.P} is ({x}, {y})!")
 
 
 # check whether a given point is an element of the curve
