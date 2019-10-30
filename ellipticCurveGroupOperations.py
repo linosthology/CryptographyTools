@@ -44,9 +44,10 @@ def timingComparison(n):
     start_time = time.time()
     for x in range(0, n, 1):
         P = curve.points[random.randrange(len(curve.points))]
-        print(P)
         pointDuplication(P)
         timeDuplication = (time.time() - start_time)
+
+    # print out information about the computing time
     print("\ntimeAddition:\n" + str(timeAddition) + "\n" + "per addition: " +
           str(timeAddition/n) + "\ntimeDuplication:\n" + str(timeDuplication) + "\n" + "per duplication: " +
           str(timeDuplication/n))
@@ -93,11 +94,14 @@ class ellipticCurve:
 
     # getInfo prints out information about the curve in the terminal
     def getInfo(self):
+        # print(
+        #     f"\nthe given elliptic curve has these points:\n{self.points}\nand an order of {len(self.points)} + point of infinity")
         print(
-            f"\nthe given elliptic curve has these points:\n{self.points}\nand an order of {len(self.points)}")
-
+            f"\nthe group has {len(self.points)} elements plus the point of infinity")
 
 # pointAddition takes a two Points and calculates the addition of those on instantiation
+
+
 class pointAddition:
     def __init__(self, P, Q):
         self.P = P
@@ -125,7 +129,7 @@ class pointAddition:
                 curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
 
             # print out the new point
-            print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
+            # print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
 
 
 # pointDuplication takes the point it has to duplicate and computes the duplication on instantiation
@@ -147,7 +151,7 @@ class pointDuplication:
             curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
 
         # print out the new point
-        print(f"\n{self.P} + {self.P} is ({x}, {y})!")
+        # print(f"\n{self.P} + {self.P} is ({x}, {y})!")
 
 
 # check whether a given point is an element of the curve
