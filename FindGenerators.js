@@ -74,4 +74,4 @@ getGenerators = (mod, coprimeSorted) => {
 }
 
 // pass the mod for the group you want to find a generator for
-findGenerators(300)
+findGenerators(283)
