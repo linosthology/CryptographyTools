@@ -94,10 +94,9 @@ class ellipticCurve:
 
     # getInfo prints out information about the curve in the terminal
     def getInfo(self):
-        x = 1+1
-        # print(
-        #     f"\nthe given elliptic curve\ny^2 = x^3 + {self.a}x + {self.b} mod {self.p} has these points:\n\n{self.points} and the point of infinity\n\nand an order of {len(self.points)}\n")
-        # pointAddition takes a two Points and calculates the addition of those on instantiation
+        print(
+            f"\nthe given elliptic curve\ny^2 = x^3 + {self.a}x + {self.b} mod {self.p} has these points:\n\n{self.points} and the point of infinity\n\nand an order of {len(self.points)}\n")
+# pointAddition takes a two Points and calculates the addition of those on instantiation
 
 
 class pointAddition:
@@ -130,10 +129,10 @@ class pointAddition:
                 y = turnPositive(
                     curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
             # print out the new point
-            # if isPointOfInfinity:
-            #     print(f"\n{self.P} + {self.P} is the point of infinity!")
-            # else:
-            #     print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
+            if isPointOfInfinity:
+                print(f"\n{self.P} + {self.P} is the point of infinity!")
+            else:
+                print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
 
 
 # pointDuplication takes the point it has to duplicate and computes the duplication on instantiation
@@ -159,10 +158,10 @@ class pointDuplication:
             y = turnPositive(
                 curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
         # print out the new point
-        # if isPointOfInfinity:
-        #     print(f"\n{self.P} + {self.P} is the point of infinity!")
-        # else:
-        #     print(f"\n{self.P} + {self.P} is ({x}, {y})!")
+        if isPointOfInfinity:
+            print(f"\n{self.P} + {self.P} is the point of infinity!")
+        else:
+            print(f"\n{self.P} + {self.P} is ({x}, {y})!")
 
 
 # check whether a given point is an element of the curve
