@@ -90,15 +90,12 @@ class ellipticCurve:
                     self.points.append((x, y))
 
         # set the order of the group after computing all the points
-        self.order = len(self.points)
+        self.order = len(self.points) + 1
 
     # getInfo prints out information about the curve in the terminal
     def getInfo(self):
         print(
-            f"\nthe given elliptic curve has these points:\n{self.points}\nand an order of {len(self.points)} + point of infinity")
-        print(
-            f"\nthe group has {len(self.points)} elements plus the point of infinity")
-
+            f"\nthe given elliptic curve\ny^2 = x^3 + {self.a}x + {self.b} mod {self.p} has these points:\n\n{self.points} and the point of infinity\n\nand an order of {len(self.points)}\n")
 # pointAddition takes a two Points and calculates the addition of those on instantiation
 
 
@@ -118,26 +115,33 @@ class pointAddition:
             print(
                 "you can't do addition with the same point, you need to perform point duplication")
         else:
+            isPointOfInfinity = False
+            if self.P[0] == self.Q[0]:
+                isPointOfInfinity = True
+            else:
 
-            # perform the addition
-            divident = turnPositive(curve.p, self.Q[1]-self.P[1] % curve.p)
-            diviser = self.Q[0]-self.P[0] % curve.p
-            inverse = extendedEuclidian.getInverse(curve.p, diviser)
-            gradient = divident*inverse % curve.p
-            x = (gradient ** 2 - self.P[0] - self.Q[0]) % curve.p
-            y = turnPositive(
-                curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
-            pointExists = False
-            for point in curve.points:
-                if (x, y) == point:
-                    pointExists = True
-            if not pointExists:
-                print(f"{self.P} + {self.Q}")
-                print(
-                    f"divident: {divident}, diviser: {diviser}, inverse: {inverse}, gradient: {gradient}")
-                print("addition", x, y)
+                # perform the addition
+                divident = turnPositive(curve.p, self.Q[1]-self.P[1] % curve.p)
+                diviser = self.Q[0]-self.P[0] % curve.p
+                inverse = extendedEuclidian.getInverse(curve.p, diviser)
+                gradient = divident*inverse % curve.p
+                x = (gradient ** 2 - self.P[0] - self.Q[0]) % curve.p
+                y = turnPositive(
+                    curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
+                pointExists = False
+                for point in curve.points:
+                    if (x, y) == point:
+                        pointExists = True
+                if not pointExists:
+                    print(f"{self.P} + {self.Q}")
+                    print(
+                        f"divident: {divident}, diviser: {diviser}, inverse: {inverse}, gradient: {gradient}")
+                    print("addition", x, y)
             # print out the new point
-            # print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
+            if isPointOfInfinity:
+                print(f"\n{self.P} + {self.P} is the point of infinity!")
+            else:
+                print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
 
 
 # pointDuplication takes the point it has to duplicate and computes the duplication on instantiation
@@ -149,28 +153,34 @@ class pointDuplication:
         self.calculate()
 
     def calculate(self):
-        gradient: int
-        divident = turnPositive(
-            curve.p, (3*(self.P[0]**2) + curve.a) % curve.p)
-        diviser = turnPositive(curve.p, 2 * self.P[1] % curve.p)
-        inverse = turnPositive(
-            curve.p, extendedEuclidian.getInverse(curve.p, diviser))
-        gradient = turnPositive(curve.p, divident*inverse % curve.p)
-        x = (gradient ** 2 - self.P[0] - self.P[0]) % curve.p
-        y = turnPositive(
-            curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
+        isPointOfInfinity = False
+        if self.P[1] == 0:
+            isPointOfInfinity = True
+        else:
+            gradient: int
+            divident = (3*(self.P[0]**2) + curve.a) % curve.p
+            diviser = 2 * self.P[1] % curve.p
+            inverse = extendedEuclidian.getInverse(curve.p, diviser)
+            gradient = divident*inverse % curve.p
+            x = turnPositive(
+                curve.p, (gradient ** 2 - self.P[0] - self.P[0]) % curve.p)
+            y = turnPositive(
+                curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
 
-        pointExists = False
-        for point in curve.points:
-            if (x, y) == point:
-                pointExists = True
-        if not pointExists:
-            print(
-                f"divident: {divident}, diviser: {diviser}, inverse: {inverse}, gradient: {gradient}")
-            print(self.P[1])
-            print("duplication", x, y)
+            pointExists = False
+            for point in curve.points:
+                if (x, y) == point:
+                    pointExists = True
+            if not pointExists:
+                print(
+                    f"divident: {divident}, diviser: {diviser}, inverse: {inverse}, gradient: {gradient}")
+                print(self.P[1])
+                print("duplication", x, y)
         # print out the new point
-        # print(f"\n{self.P} + {self.P} is ({x}, {y})!")
+        if isPointOfInfinity:
+            print(f"\n{self.P} + {self.P} is the point of infinity!")
+        else:
+            print(f"\n{self.P} + {self.P} is ({x}, {y})!")
 
 
 # check whether a given point is an element of the curve
