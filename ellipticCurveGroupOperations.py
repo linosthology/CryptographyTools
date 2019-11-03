@@ -48,9 +48,9 @@ def timingComparison(n):
         timeDuplication = (time.time() - start_time)
 
     # print out information about the computing time
-    print("\ntimeAddition:\n" + str(timeAddition) + "\n" + "per addition: " +
-          str(timeAddition/n) + "\ntimeDuplication:\n" + str(timeDuplication) + "\n" + "per duplication: " +
-          str(timeDuplication/n))
+    print("\ntimeAddition:\n" + str(timeAddition) + " seconds \n" + "per addition: " +
+          str((timeAddition/n) * (10**9)) + " nanoseconds\ntimeDuplication:\n" + str(timeDuplication) + " seconds\n" + "per duplication: " +
+          str((timeDuplication/n) * (10**9)) + " nanoseconds")
 
 
 # if you have a negative number, you can turn its into its positiveEquivalent
@@ -94,9 +94,10 @@ class ellipticCurve:
 
     # getInfo prints out information about the curve in the terminal
     def getInfo(self):
-        print(
-            f"\nthe given elliptic curve\ny^2 = x^3 + {self.a}x + {self.b} mod {self.p} has these points:\n\n{self.points} and the point of infinity\n\nand an order of {len(self.points)}\n")
-# pointAddition takes a two Points and calculates the addition of those on instantiation
+        x = 1+1
+        # print(
+        #     f"\nthe given elliptic curve\ny^2 = x^3 + {self.a}x + {self.b} mod {self.p} has these points:\n\n{self.points} and the point of infinity\n\nand an order of {len(self.points)}\n")
+        # pointAddition takes a two Points and calculates the addition of those on instantiation
 
 
 class pointAddition:
@@ -128,20 +129,11 @@ class pointAddition:
                 x = (gradient ** 2 - self.P[0] - self.Q[0]) % curve.p
                 y = turnPositive(
                     curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
-                pointExists = False
-                for point in curve.points:
-                    if (x, y) == point:
-                        pointExists = True
-                if not pointExists:
-                    print(f"{self.P} + {self.Q}")
-                    print(
-                        f"divident: {divident}, diviser: {diviser}, inverse: {inverse}, gradient: {gradient}")
-                    print("addition", x, y)
             # print out the new point
-            if isPointOfInfinity:
-                print(f"\n{self.P} + {self.P} is the point of infinity!")
-            else:
-                print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
+            # if isPointOfInfinity:
+            #     print(f"\n{self.P} + {self.P} is the point of infinity!")
+            # else:
+            #     print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
 
 
 # pointDuplication takes the point it has to duplicate and computes the duplication on instantiation
@@ -166,21 +158,11 @@ class pointDuplication:
                 curve.p, (gradient ** 2 - self.P[0] - self.P[0]) % curve.p)
             y = turnPositive(
                 curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
-
-            pointExists = False
-            for point in curve.points:
-                if (x, y) == point:
-                    pointExists = True
-            if not pointExists:
-                print(
-                    f"divident: {divident}, diviser: {diviser}, inverse: {inverse}, gradient: {gradient}")
-                print(self.P[1])
-                print("duplication", x, y)
         # print out the new point
-        if isPointOfInfinity:
-            print(f"\n{self.P} + {self.P} is the point of infinity!")
-        else:
-            print(f"\n{self.P} + {self.P} is ({x}, {y})!")
+        # if isPointOfInfinity:
+        #     print(f"\n{self.P} + {self.P} is the point of infinity!")
+        # else:
+        #     print(f"\n{self.P} + {self.P} is ({x}, {y})!")
 
 
 # check whether a given point is an element of the curve
@@ -221,7 +203,7 @@ if 3 <= len(args) <= 7:
             curve.getInfo()
 
             # call timing comparison
-            timingComparison(10)
+            timingComparison(100)
 
             # the user put in 4 arguments
             if len(args) == 4:
