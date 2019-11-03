@@ -120,16 +120,24 @@ class pointAddition:
         else:
 
             # perform the addition
-            divident = self.Q[1]-self.P[1] % curve.p
+            divident = turnPositive(curve.p, self.Q[1]-self.P[1] % curve.p)
             diviser = self.Q[0]-self.P[0] % curve.p
             inverse = extendedEuclidian.getInverse(curve.p, diviser)
             gradient = divident*inverse % curve.p
             x = (gradient ** 2 - self.P[0] - self.Q[0]) % curve.p
             y = turnPositive(
                 curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
-
+            pointExists = False
+            for point in curve.points:
+                if (x, y) == point:
+                    pointExists = True
+            if not pointExists:
+                print(f"{self.P} + {self.Q}")
+                print(
+                    f"divident: {divident}, diviser: {diviser}, inverse: {inverse}, gradient: {gradient}")
+                print("addition", x, y)
             # print out the new point
-            print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
+            # print(f"\n{self.P} + {self.Q} is ({x}, {y})!")
 
 
 # pointDuplication takes the point it has to duplicate and computes the duplication on instantiation
@@ -142,16 +150,27 @@ class pointDuplication:
 
     def calculate(self):
         gradient: int
-        divident = (3*(self.P[0]**2) + curve.a) % curve.p
-        diviser = 2 * self.P[1] % curve.p
-        inverse = extendedEuclidian.getInverse(curve.p, diviser)
-        gradient = divident*inverse % curve.p
+        divident = turnPositive(
+            curve.p, (3*(self.P[0]**2) + curve.a) % curve.p)
+        diviser = turnPositive(curve.p, 2 * self.P[1] % curve.p)
+        inverse = turnPositive(
+            curve.p, extendedEuclidian.getInverse(curve.p, diviser))
+        gradient = turnPositive(curve.p, divident*inverse % curve.p)
         x = (gradient ** 2 - self.P[0] - self.P[0]) % curve.p
         y = turnPositive(
             curve.p, ((gradient*(self.P[0]-x)-self.P[1]) % curve.p))
 
+        pointExists = False
+        for point in curve.points:
+            if (x, y) == point:
+                pointExists = True
+        if not pointExists:
+            print(
+                f"divident: {divident}, diviser: {diviser}, inverse: {inverse}, gradient: {gradient}")
+            print(self.P[1])
+            print("duplication", x, y)
         # print out the new point
-        print(f"\n{self.P} + {self.P} is ({x}, {y})!")
+        # print(f"\n{self.P} + {self.P} is ({x}, {y})!")
 
 
 # check whether a given point is an element of the curve
@@ -192,7 +211,7 @@ if 3 <= len(args) <= 7:
             curve.getInfo()
 
             # call timing comparison
-            timingComparison(100)
+            timingComparison(10)
 
             # the user put in 4 arguments
             if len(args) == 4:
