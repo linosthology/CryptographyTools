@@ -204,7 +204,7 @@ if 3 <= len(args) <= 7:
             curve.getInfo()
 
             # call timing comparison
-            timingComparison(100)
+            # timingComparison(100)
 
             # the user put in 4 arguments
             if len(args) == 4:
